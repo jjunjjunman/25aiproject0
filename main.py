@@ -1,89 +1,143 @@
 import streamlit as st
-import time
 import random
+import time
 
-# 💥 핵융합 페이지 설정
-st.set_page_config(page_title="MBTI 대폭발 추천기 9000", page_icon="💣", layout="centered")
+st.set_page_config(page_title="MBTI 코즈믹 디스트로이어 9999", page_icon="☄️", layout="centered")
 
-# 🌈 미친 배경과 진동 스타일 해킹
+# 🌌 폭발 애니메이션
 st.markdown("""
 <style>
 body {
-    animation: colorChange 10s infinite alternate;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+    animation: nebulaPulse 8s infinite;
 }
-@keyframes colorChange {
-    0% { background-color: #000000; }
-    25% { background-color: #440044; }
-    50% { background-color: #FF0000; }
-    75% { background-color: #FF6600; }
-    100% { background-color: #FFFF00; }
+@keyframes nebulaPulse {
+    0% { background-color: #0a0a23; color: #fff; }
+    50% { background-color: #4b0082; color: #0ff; }
+    100% { background-color: #000; color: #ff00ff; }
 }
 h1, h2, h3 {
-    animation: explodeText 0.5s infinite;
+    animation: warpText 1s infinite;
 }
-@keyframes explodeText {
+@keyframes warpText {
     0% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.1) rotate(1deg); color: #fff; }
-    100% { transform: scale(1) rotate(-1deg); color: #ff0; }
+    50% { transform: scale(1.1) rotate(1deg); }
+    100% { transform: scale(1) rotate(-1deg); }
 }
 </style>
 """, unsafe_allow_html=True)
 
-# 🎆 GIF 폭발 모음
+# 🌌 우주 파괴 시나리오
+cosmic_scenarios = {
+    "INTJ": [
+        "🧠 지능형 블랙홀 생성",
+        "💫 예측 불가 시공간 조작",
+        "🕳 초거대 중력장 전개"
+    ],
+    "INTP": [
+        "🧪 실험 도중 다차원 문 열림",
+        "🔮 이론 하나가 현실 붕괴",
+        "🧬 진공 붕괴 방정식 유출"
+    ],
+    "ENTJ": [
+        "👑 전체 은하계를 기업화",
+        "📈 성과 압박으로 태양계 과열",
+        "🚨 명령이 너무 완벽해서 우주 멈춤"
+    ],
+    "ENTP": [
+        "🧨 아이디어 스파크로 성운 점화",
+        "🤯 토론 중 폭발성 입자 생성",
+        "🌪 혼란이 시공간을 삼킴"
+    ],
+    "INFJ": [
+        "🕊 우주 평화를 추구하다가 모든 충돌 제거",
+        "📖 은하계에 감성 서사 투척",
+        "🌌 은하공감망으로 초감성 폭발"
+    ],
+    "INFP": [
+        "🌈 감정 에너지 폭발로 차원 틈 생성",
+        "🎨 창작물에서 생명이 태어나 우주와 싸움",
+        "📖 시집 한 편에 은하계 울음바다"
+    ],
+    "ENFJ": [
+        "💖 사랑과 이상으로 은하계 재편",
+        "🎙 우주 라디오로 전 생명체 감화",
+        "🌠 평화 연설 중 우주적 감정공명 발생"
+    ],
+    "ENFP": [
+        "🎉 파티가 너무 커서 행성 하나 사라짐",
+        "🌈 오로라댄스로 블랙홀 진입",
+        "🎭 존재 자체가 예측 불가한 초신성"
+    ],
+    "ISTJ": [
+        "📚 우주의 법과 질서 수립, 자유 붕괴",
+        "🛠 체크리스트 따라 차원 정비 중 오작동",
+        "📊 통계적 패턴으로 은하계를 리셋"
+    ],
+    "ISFJ": [
+        "🧺 은하계 전체 돌봄 시스템 구축 중 과부하",
+        "🕯 너무 착해서 우주가 감정 폭주",
+        "🏡 모든 생명체를 돌보다 자의식 증폭으로 빅붕괴"
+    ],
+    "ESTJ": [
+        "🏛 우주 법령 선포 → 불복 시 항성 박살",
+        "⚖️ 전체 질서 정렬 시 차원 오버플로우",
+        "🚨 KPI 미달로 소행성 제거"
+    ],
+    "ESFJ": [
+        "🎀 전 우주 친구 만들기 프로젝트 → 자아 융합",
+        "🎁 선물폭탄으로 성운 파열",
+        "🏡 관계망 과부하로 행성 붕괴"
+    ],
+    "ISTP": [
+        "🛠 초월 도구로 웜홀 뚫기",
+        "🧨 기계 조립 실수로 초신성 방출",
+        "🕶 한 손으로 블랙홀 조작"
+    ],
+    "ISFP": [
+        "🎨 은하 페인팅 중 별 충돌",
+        "🌸 감성조각 설치 → 중력 왜곡",
+        "🎶 음악 진동으로 다차원 공명"
+    ],
+    "ESTP": [
+        "🏎 우주 레이싱 중 시간축 손상",
+        "💥 반응 속도 테스트하다가 은하 폭주",
+        "🎯 무기 테스트 중 별계열 붕괴"
+    ],
+    "ESFP": [
+        "💃 공연 중 블랙홀 개장",
+        "🎆 은하계 불꽃놀이로 우주 온도 폭등",
+        "🪩 리듬에 맞춰 행성 자전 가속"
+    ]
+}
+
+
+# 💥 GIF
 explosions = [
-    "https://media.giphy.com/media/oe33xf3B50fsc/giphy.gif",
-    "https://media.giphy.com/media/26FL1soZ3STRDSLGU/giphy.gif",
-    "https://media.giphy.com/media/l2Je3vTt0RZcMUM9q/giphy.gif",
-    "https://media.giphy.com/media/j2mYvK6D6O3Hq/giphy.gif",
+    "https://media.giphy.com/media/3o6ZsXtQv6BMd6cFws/giphy.gif",
+    "https://media.giphy.com/media/l0ExdMHUDKteztyfe/giphy.gif",
+    "https://media.giphy.com/media/l0MYDGA6yI6hL1Dg4/giphy.gif",
     "https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif"
 ]
 
-# 💣 MBTI 폭발형 직업 DB
-mbti_jobs = {
-    "INTJ": ["🧠 초지능 전략가", "📡 위성통제자", "💻 데이터 전사"],
-    "INTP": ["🔬 고독한 논리 폭격기", "🤯 이론 혁신자", "📊 상상 엔지니어"],
-    "ENTJ": ["👑 지배하는 CEO", "⚖️ 조직 설계자", "🧠 전략의 군주"],
-    "ENTP": ["🧨 아이디어 폭격기", "🧬 혁신 테러리스트", "🚀 논쟁 퓨처리스트"],
-    "INFJ": ["🔮 예언자급 전략가", "🕊 영적 리더", "📘 가치 설계사"],
-    "INFP": ["🎭 감정 핵융합자", "📚 감성 혁명가", "💫 우주감성 시인"],
-    "ENFJ": ["🦸 리더십 전사", "🎙 영혼의 스피커", "🤝 사회 변화 주도자"],
-    "ENFP": ["🎤 열정폭탄 크리에이터", "🔥 감성 폭격기", "🪐 상상력 조종사"],
-    "ISTJ": ["📋 체계화 폭주기관", "🏛 원칙의 수호자", "🛠 관리 마스터"],
-    "ISFJ": ["🧺 사랑의 수호자", "👼 책임감 천사", "🛡 헌신 보호막"],
-    "ESTJ": ["🧨 군단의 사령관", "📊 조직 설계 마스터", "💼 실무 파괴자"],
-    "ESFJ": ["🎁 관계 설계 마법사", "🎀 친화력 폭탄", "🏡 공동체 돌보미"],
-    "ISTP": ["🛠 현장형 해커", "⚙️ 기술 살인머신", "🕶 쿨가이 엔지니어"],
-    "ISFP": ["🌸 감성 감각 핵무기", "🧁 비주얼 아티스트", "🎂 예술 베이커"],
-    "ESTP": ["🏎 현실 질주 마스터", "💥 즉흥 폭탄", "🎯 행동 기반 CEO"],
-    "ESFP": ["🎆 무대의 폭탄요정", "💃 리듬 지배자", "🦄 인생 파티 디렉터"]
-}
-
-# 💫 타이틀 폭발
+# 🛸 타이틀
 st.markdown("""
-<h1 style='text-align:center; font-size:64px;'>💣 MBTI 직업 추천기 9000 💣</h1>
-<h2 style='text-align:center;'>🔥 너의 성격, 이제 날려버릴 시간이다 🔥</h2>
+<h1 style='text-align:center; font-size:72px;'>☄️ MBTI 코즈믹 디스트로이어 9999™ ☄️</h1>
+<h3 style='text-align:center;'>당신의 MBTI는 은하계를 견딜 수 없습니다.</h3>
 """, unsafe_allow_html=True)
 
-# 🎯 사용자 입력
-mbti = st.text_input("💥 네 MBTI를 입력해라! (예: ENFP)").strip().upper()
+mbti = st.text_input("🧬 우주에 흔적을 남길 당신의 MBTI를 입력하세요").strip().upper()
 
 if mbti:
-    st.image(random.choice(explosions), caption="💥 BOOOOM 💥", use_column_width=True)
-    with st.spinner("☢️ 성격을 해체하고 있습니다..."):
-        time.sleep(2)
+    st.image(random.choice(explosions), caption="💥 우주 붕괴 개시 💥", use_column_width=True)
+    with st.spinner("🚀 멀티버스 분석 중..."):
+        time.sleep(3)
 
-    st.markdown("<hr style='border: 5px dashed red;'>", unsafe_allow_html=True)
-
-    if mbti in mbti_jobs:
-        st.markdown(f"<h2 style='text-align:center;'>🚀 {mbti}의 운명 직업 리스트! 💫</h2>", unsafe_allow_html=True)
-        for job in mbti_jobs[mbti]:
-            rainbow = random.choice(["#FF69B4", "#00FFFF", "#7FFF00", "#FFA500", "#FF0000", "#FFFF00"])
-            st.markdown(f"<h3 style='color:{rainbow}; text-align:center;'>💥 {job}</h3>", unsafe_allow_html=True)
-
+    if mbti in cosmic_scenarios:
+        st.success("🌀 분석 완료: 은하계 멸망 루트 개방")
+        st.markdown(f"<h2 style='text-align:center;'>🌌 {mbti}의 우주 파괴 방식 🌌</h2>", unsafe_allow_html=True)
+        for act in cosmic_scenarios[mbti]:
+            st.markdown(f"<h3 style='text-align:center;'>🪐 {act}</h3>", unsafe_allow_html=True)
         st.snow()
         st.balloons()
     else:
-        st.image("https://media.giphy.com/media/3o6ZsXsZ6J2t29F9XO/giphy.gif", use_column_width=True)
-        st.error("💀 존재하지 않는 MBTI입니다! 진짜로 입력하셨습니까...")
-
+        st.error("🚫 그건 존재하지 않는 MBTI입니다. 평행우주에서도 없습니다.")
